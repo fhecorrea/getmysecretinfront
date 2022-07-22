@@ -6,6 +6,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col'
 import {Link} from 'react-router-dom';
 import InputField from "../fields/InputField";
+import { useDispatch } from 'react-redux';
+
+import {currentUserAuthenticated} from '../../slices/currentUserSlice';
 
 export default function Login (props) {
 
@@ -15,9 +18,19 @@ export default function Login (props) {
   const [isAdmin, setIsAdmin] = React.useState(props?.admin);
   const [isSubmitBtnDisabled, setIsSubmitBtnDisabled] = React.useState(true);
 
+  const dispatch = useDispatch();
+
   const handleSubmit = e => {
     e.preventDefault();
     console.log(`Usuário: ${username}\nSenha: ${password}`);
+    //dispatch(currentUserAuthenticated({username, password}));
+    //props.authenticate({username, password});
+    dispatch(currentUserAuthenticated({
+      id: 1, 
+      username,
+      password,
+      isAdmin: false
+    }));
   };
 
   return (
@@ -33,7 +46,7 @@ export default function Login (props) {
                   label="Usuário"
                   type="text"
                   size="lg"
-                  changeHandler={setUsername}
+                  changehandler={setUsername}
                 />
               </Col>
             </Row>
@@ -44,7 +57,7 @@ export default function Login (props) {
                   type="password"
                   label="Senha"
                   size="lg"
-                  changeHandler={setPassword}
+                  changehandler={setPassword}
                 />
               </Col>
             </Row>
@@ -72,3 +85,19 @@ export default function Login (props) {
     </div>
   );
 }
+
+/*const mapStateToProps = state => {
+  return {
+    user: state.currentUser
+  }
+};
+
+const mapDispatchToProp = dispatch => {
+  return {
+    authenticate(user) {
+      dispatch(authenticateUser(user));
+    }
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProp)(Login);*/

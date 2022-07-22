@@ -13,8 +13,8 @@ export default class InputField extends React.Component {
   }
 
   setValue(val) {
-    console.log(val);
-    this.props.changeHandler(val);
+    //console.log(val);
+    this.props.changehandler(val);
   }
 
   render() {
@@ -30,7 +30,7 @@ export default class InputField extends React.Component {
             id={this.state.id}
             className={"form-control" + (this.props.size ? (" " + this.props.size) : "")}
             onChange={(e) => this.setValue(e.currentTarget.value)}
-            {...this.props}
+            name={this.props.name}
           />
         </>
       );

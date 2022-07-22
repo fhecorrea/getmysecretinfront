@@ -8,38 +8,46 @@ import {
   useLocation
 } from "react-router-dom";
 import Login from "./views/pages/Login";
+import Logoff from "./views/pages/Logoff";
+import { useSelector } from 'react-redux';
 
 //import logo from './logo.svg';
 //import './App.css';
 
 export default function App() {
+
+  const authenticatedUser = useSelector(state => state.currentUser);
+  const isAuthenticated = authenticatedUser && authenticatedUser.id && authenticatedUser.id > 0;
+
   return (
     <BrowserRouter basename={process.env.REACT_APP_PUBLIC_URL}>
       <div>
         <ul>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
           <li>
             <Link to="/">Home</Link>
           </li>
           <li>
             <Link to="/about">Sobre</Link>
           </li>
+          {
+            isAuthenticated 
+            ? (
+              <li>
+                <Logoff />
+              </li>
+              ) 
+            : ""
+          }
         </ul>
 
         <Routes>
           <Route
-            path="/login"
-            element={<Login />} 
+            path="/"
+            element={isAuthenticated ? (<Home />) : (<Login />)}
           />
           <Route
             path="/about"
             element={<About />} 
-          />
-          <Route
-            path="/"
-            element={<Home />} 
           />
           <Route 
             path="*"
