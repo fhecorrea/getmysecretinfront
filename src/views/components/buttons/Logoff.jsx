@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import {connect, useDispatch} from "react-redux";
 import { useNavigate } from "react-router";
 
-import {currentUserLogout} from "../../slices/currentUserSlice";
+import {currentUserLogout} from "../../../slices/currentUserSlice";
 
 const Logoff = (props) => {
   

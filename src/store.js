@@ -1,10 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import currentUserSlice from './slices/currentUserSlice';
+import currentUserReducer from './slices/currentUserSlice';
+import usersReducer from './slices/usersSlice';
+import messagesReducer from './slices/messagesSlice';
 
 const store = configureStore({
   reducer: {
-    currentUser: currentUserSlice,
+    currentUser: currentUserReducer,
+    messages: messagesReducer,
+    users: usersReducer,
     devTools: process.env.NODE_ENV !== "production",
   }
 });

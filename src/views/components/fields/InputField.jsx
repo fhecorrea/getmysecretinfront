@@ -31,6 +31,7 @@ export default class InputField extends React.Component {
             className={"form-control" + (this.props.size ? (" " + this.props.size) : "")}
             onChange={(e) => this.setValue(e.currentTarget.value)}
             name={this.props.name}
+            type={this.props.type}
           />
         </>
       );

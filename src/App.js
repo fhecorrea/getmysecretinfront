@@ -1,94 +1,62 @@
 import React from "react";
 import {
-  BrowserRouter as Router,
+  //BrowserRouter as Router,
   Routes,
   BrowserRouter,
-  Route,
-  Link,
-  useLocation
+  Route
 } from "react-router-dom";
+import Container from 'react-bootstrap/Container';
 import Login from "./views/pages/Login";
-import Logoff from "./views/pages/Logoff";
+import Chat from "./views/pages/Chat";
+import Home from "./views/pages/Home";
+import About from "./views/pages/About";
+import NoMatch from "./views/pages/NoMatch";
 import { useSelector } from 'react-redux';
+import NavBar from "./views/components/Navbar";
 
 //import logo from './logo.svg';
 //import './App.css';
 
-export default function App() {
+const ProtectedRoute = ({children}) => {
+  
+  // Example: https://reactrouter.com/docs/en/v6/examples/auth
 
-  const authenticatedUser = useSelector(state => state.currentUser);
-  const isAuthenticated = authenticatedUser && authenticatedUser.id && authenticatedUser.id > 0;
+  let authenticatedUser = useSelector(state => state.currentUser);
+  let isAuthenticated = authenticatedUser && authenticatedUser.id && authenticatedUser.id > 0;
+
+  if (!isAuthenticated) {
+    return <Login />;
+  }
+
+  return children;
+};
+
+export default function App() {
 
   return (
     <BrowserRouter basename={process.env.REACT_APP_PUBLIC_URL}>
-      <div>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">Sobre</Link>
-          </li>
-          {
-            isAuthenticated 
-            ? (
-              <li>
-                <Logoff />
-              </li>
-              ) 
-            : ""
-          }
-        </ul>
+      <NavBar />
+      <Container className="my-4">
 
         <Routes>
           <Route
-            path="/"
-            element={isAuthenticated ? (<Home />) : (<Login />)}
+            exact path="/"
+            element={<ProtectedRoute children={<Home />} />}
           />
           <Route
             path="/about"
             element={<About />} 
+          />
+          <Route
+            path="/chat/:id"
+            element={<ProtectedRoute children={<Chat />} />} 
           />
           <Route 
             path="*"
             element={<NoMatch />}
           />
         </Routes>
-      </div>
+      </Container>
     </BrowserRouter>
-  );
-}
-
-function Home() {
-  return (
-    <div>
-      <h2>Bem vindo ao Get My Secret!</h2>
-      <h3>Sua maneira segura e eficiente de compartilhar informações!</h3>
-      <br />
-      <hr />
-      <br />
-      <br />
-      <p>Clique no botão para iniciar uma interação com um usuário.</p>
-    </div>
-  );
-}
-
-function About() {
-  return (
-    <div>
-      <h2>Sobre este projeto!</h2>
-      <p>'Projetinho' desenvolvido como forma de atividade prática no bootcamp desenvolvido pela TOTVS em parceria com o SENAI.</p>
-      <p>Esta aplicação não tem por objetivo servir de base ou referência alguma, apenas solução de um problema proposto.</p>
-    </div>
-  );
-}
-
-function NoMatch() {
-  const loc = useLocation();
-
-  return (
-    <div>
-      <h2>Página “{loc.pathname}” não encontrada!</h2>
-    </div>
   );
 }

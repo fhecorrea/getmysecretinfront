@@ -5,18 +5,18 @@ import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col'
 import {Link} from 'react-router-dom';
-import InputField from "../fields/InputField";
+import InputField from "../components/fields/InputField";
 import { useDispatch } from 'react-redux';
 
 import {currentUserAuthenticated} from '../../slices/currentUserSlice';
 
 export default function Login (props) {
 
-  document.title = props.title ?? "Acesse sua conta!";
+  document.title = "Acesse sua conta! :: GetMySecret";
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [isAdmin, setIsAdmin] = React.useState(props?.admin);
-  const [isSubmitBtnDisabled, setIsSubmitBtnDisabled] = React.useState(true);
+  //const [isSubmitBtnDisabled, setIsSubmitBtnDisabled] = React.useState(true);
 
   const dispatch = useDispatch();
 
@@ -25,11 +25,12 @@ export default function Login (props) {
     console.log(`Usuário: ${username}\nSenha: ${password}`);
     //dispatch(currentUserAuthenticated({username, password}));
     //props.authenticate({username, password});
+    setIsAdmin(false);
     dispatch(currentUserAuthenticated({
       id: 1, 
       username,
       password,
-      isAdmin: false
+      isAdmin
     }));
   };
 

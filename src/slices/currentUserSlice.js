@@ -13,7 +13,7 @@ const currentUserSlice = createSlice({
     },
     */
     currentUserAuthenticated(state, action) {
-      console.log(action);
+      //console.log(action);
       return {
         ...state,
         id: action.payload.id,
