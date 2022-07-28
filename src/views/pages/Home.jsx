@@ -1,6 +1,7 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import UserModal from '../components/misc/UsersModal';
+
+import { connect } from 'react-redux';
 
 const Home = (props) => {
 
@@ -8,7 +9,7 @@ const Home = (props) => {
 
   return (
     <div>
-      <h2>Bem vindo ao Get My Secret, {props.user.username}!</h2>
+      <h2>Bem vindo ao {process.env.REACT_APP_NAME}, {props.user.name}!</h2>
       <h3>Sua maneira segura e eficiente de compartilhar informações!</h3>
       <br />
       <hr />

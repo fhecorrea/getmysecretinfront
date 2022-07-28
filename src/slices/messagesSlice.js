@@ -20,13 +20,14 @@ const messagesSlice = createSlice({
     messageReceived(state, action) {
         return {
             ...state,
-            data: state.data.push(action.payload)
+            loading: false,
+            data: [...state.data, action.payload]
         }
     },
-    messageRead(state, action) {
+    messageRead(state) {
         return {
             ...state,
-            data: state.data.filter(m => m.id.toString() !== action.payload.toString())
+            data: state.data.filter(m => !m.secret)
         }
     }
   }

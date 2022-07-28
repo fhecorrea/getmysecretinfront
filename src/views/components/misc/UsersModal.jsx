@@ -44,7 +44,7 @@ const UsersModal = (props) => {
     const user = props.users.data.find(u => u.id && (u.id === userId));
     console.log(`A CONVERSAR COM O USUÁRIO ${user.username} (ID: ${user.id}).`);
     // Redireciona a página do chat.
-    navigate(`/chat/${user.id}`, {replace: true});
+    navigate(`/chat/${user.id}`);
   };
     
   return (

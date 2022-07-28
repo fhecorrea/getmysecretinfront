@@ -16,9 +16,7 @@ const currentUserSlice = createSlice({
       //console.log(action);
       return {
         ...state,
-        id: action.payload.id,
-        username: action.payload.username,
-        isAdmin: action.payload.isAdmin
+        ...action.payload
       };
     },
     currentUserUpdated(state, action) {
@@ -26,12 +24,7 @@ const currentUserSlice = createSlice({
       //todo.completed = !todo.completed
     },
     currentUserLogout(state) {
-      return {
-        ...state,
-        id: -1,
-        username: null,
-        idAdmin: false
-      };
+      return {};
     }
   }
 });
