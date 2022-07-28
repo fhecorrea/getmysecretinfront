@@ -11,7 +11,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import {
   messagesSyncing,
-  messagesSynced,
+  //messagesSynced,
   messageReceived,
   messageRead
 } from "../../slices/messagesSlice";
