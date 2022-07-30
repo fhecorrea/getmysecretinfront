@@ -6,9 +6,9 @@ const Secretize = {
   },
   decrypt(encData) {
     encData = base64_decode(encData);
-    console.log(encData, encData.substring(1, encData.length - 1));
+    //console.log(encData, encData.substring(1, encData.length - 1));
     let data = base64_decode(encData.substring(1, encData.length - 1));
-    console.log("A retornar...", data);
+    //console.log("A retornar...", data);
     return data;
   }
 };

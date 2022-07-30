@@ -37,6 +37,7 @@ jobs:
           REACT_APP_TENANT_ID: ${{ secrets.REACT_APP_TENANT_ID }}
           REACT_APP_REDIRECT_URI: ${{ secrets.REACT_APP_REDIRECT_URI }}
           REACT_APP_SCOPES: ${{ secrets.REACT_APP_SCOPES }}
+          REACT_APP_BASE_API_URL: ${{ secrets.REACT_APP_BASE_API_URL }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'

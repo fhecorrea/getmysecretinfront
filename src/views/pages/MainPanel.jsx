@@ -11,11 +11,12 @@ import { useNavigate } from 'react-router-dom';
 import {
   messagesSyncing,
   //messagesSynced,
-  messageReceived,
+  //messageReceived,
   //messageRead,
   messagesSynced
 } from "../../slices/messagesSlice";
 import { ListGroup } from 'react-bootstrap';
+import client from '../../utils/client';
 
 const MainPanel = (props) => {
 
@@ -47,9 +48,26 @@ const MainPanel = (props) => {
 
     // To prevents multiple requests to server
     startCountdown();
-    // dispach loading messages
-    console.log(`Buscando mensagens do usuário ${props.user.name} (${props.user.username})...`);
-    // dispatch messages
+    
+    dispatch(messagesSyncing());
+  
+    client(
+      "GET",
+      '/secrets/list',
+      {'Accept': 'application/json'},
+      null,
+      true
+    )
+      .then((m) => {
+        console.log(`Buscando mensagens do usuário ${props.user.name} (${props.user.username})...`);
+        if (m && m.data && m.data.length >= 0)
+          dispatch(messagesSynced(m.data));
+      })
+      .catch(e => {
+        console.log("Failed to retrieve user's received secrets. Error: %s", e);
+        dispatch(messagesSynced([]));
+      });
+  
   };
 
   /**
@@ -87,39 +105,40 @@ const MainPanel = (props) => {
     setSecretText("");
   };
 
-  const fakeAsync = async (callback) => {
-    await setTimeout(callback, 1000);
-  };
-
   const sendSecretText = () => {
 
     dispatch(messagesSyncing());
 
-    fakeAsync(() => {
-      
-      let text = Secretize.encrypt(secretText);
-  
-      dispatch(messageReceived({
+    client(
+      "POST",
+      '/secrets/send',
+      {'Accept': 'application/json'},
+      { // Data
         id: Date.now(),
-        text,
-        sender_id: props.user.id,
-        sender_name: props.user.name,
+        text: Secretize.encrypt(secretText),
         receiver_id: selectedUser.id,
         receiver_name: selectedUser.name
-      }));
-
-      setSecretText("");
-    });
+      },
+      true
+    )
+      .then(() => {
+        console.log("Text was sent to user!");
+        dispatch(messagesSynced([]));
+        setSecretText("");
+      })
+      .catch(e => console.log("Failed to send text to user. Error: %s", e));
   };
   
-  const readSecretTexts = async () => {
+  const readSecretTexts = () => {
     
     if (messages.length < 1)
       return;
     
     let msgs = messages.data;
-    if (msgs.length < 1)
+    if (msgs.length < 1) {
+      console.log("No messages to read. Nothing to do.");
       return;
+    }
     
     const decryptedMessageList = [];
     for (let midx = 0; midx < msgs.length; midx++) {
@@ -129,8 +148,24 @@ const MainPanel = (props) => {
       };
       //console.log(msgs[midx]);
     }
-    //console.log(msgs)
-    dispatch(messagesSynced(decryptedMessageList));
+    
+    dispatch(messagesSyncing());
+  
+    client(
+      "GET",
+      '/secrets/read',
+      {'Accept': 'application/json'},
+      null,
+      true
+    )
+      .then(() => {
+        console.log("Texts was set as read!");
+        dispatch(messagesSynced(decryptedMessageList));
+      })
+      .catch(e => {
+        console.log("Failed to send text to user. Error: %s", e);
+        dispatch(messagesSynced(messages.data));
+      });
   };
 
   return (
