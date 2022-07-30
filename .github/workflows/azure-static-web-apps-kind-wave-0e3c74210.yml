@@ -32,12 +32,12 @@ jobs:
           output_location: "build" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
         env:
-          REACT_APP_NAME: ${{ GetMyRealSecrets.REACT_APP_NAME }}
-          REACT_APP_CLIENT_ID: ${{ GetMyRealSecrets.REACT_APP_CLIENT_ID }}
-          REACT_APP_TENANT_ID: ${{ GetMyRealSecrets.REACT_APP_TENANT_ID }}
-          REACT_APP_REDIRECT_URI: ${{ GetMyRealSecrets.REACT_APP_REDIRECT_URI }}
-          REACT_APP_SCOPES: ${{ GetMyRealSecrets.REACT_APP_SCOPES }}
-          REACT_APP_BASE_API_URL: ${{ GetMyRealSecrets.REACT_APP_BASE_API_URL }}
+          REACT_APP_NAME: $REACT_APP_NAME
+          REACT_APP_CLIENT_ID: $REACT_APP_CLIENT_ID
+          REACT_APP_TENANT_ID: $REACT_APP_TENANT_ID
+          REACT_APP_REDIRECT_URI: $REACT_APP_REDIRECT_URI
+          REACT_APP_SCOPES: $REACT_APP_SCOPES
+          REACT_APP_BASE_API_URL: $REACT_APP_BASE_API_URL
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
