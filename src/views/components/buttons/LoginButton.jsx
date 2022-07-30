@@ -7,6 +7,8 @@ import { useDispatch } from 'react-redux';
 import { currentUserAuthenticated } from '../../../slices/currentUserSlice';
 import { encode as base64_encode } from 'base-64';
 
+import client from "../../../utils/client";
+
 const Login = () => {
   const { instance } = useMsal();
   const dispatch = useDispatch();
@@ -15,7 +17,8 @@ const Login = () => {
    
     instance.loginPopup(loginRequest)
       .then(d => {
-        console.log(d.account, d.account.name, d.account, d.idTokenClaims, d.idTokenClaims.name);
+        //console.log(d.account, d.account.name, d.account, d.idTokenClaims, d.idTokenClaims.name);
+
         const user = {
           id: d.account.homeAccountId,
           name: d.account.name,
@@ -27,7 +30,15 @@ const Login = () => {
         // redux storage, para a situação do usuário atualizar
         // a página no botão 'refresh'do browser.
         sessionStorage.setItem("current_user", base64_encode(JSON.stringify(user)));
-        dispatch(currentUserAuthenticated(user));
+        client("POST", '/users/register', {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + d.accessToken
+        }, user)
+          .then(u => {
+            if (u.id === user.id) console.log("User registered!");
+            dispatch(currentUserAuthenticated(user));
+          })
+          .catch(e => console.log("Failed to register user on server. Error: %s", e));
       })
       .catch(e => {
         console.log(e.errorCode);

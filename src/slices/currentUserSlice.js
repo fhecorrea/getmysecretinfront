@@ -35,19 +35,4 @@ export const {
   currentUserLogout
 } = currentUserSlice.actions;
 
-export const authenticateUser = (username, password, isAdmin = false) => async (dispatch) => {
-
-  console.log("Chegou a função de autenticação...");
-  await setTimeout(
-    () => dispatch(
-      currentUserAuthenticated({
-        id: 1,
-        username: username,
-        isAdmin: isAdmin
-      })
-    ), 
-    1000
-  );
-};
-
 export default currentUserSlice.reducer;

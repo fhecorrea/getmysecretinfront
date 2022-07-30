@@ -24,10 +24,11 @@ const messagesSlice = createSlice({
             data: [...state.data, action.payload]
         }
     },
-    messageRead(state) {
+    messageRead(state, action) {
         return {
             ...state,
-            data: state.data.filter(m => !m.secret)
+            loading: false,
+            data: action.payload
         }
     }
   }

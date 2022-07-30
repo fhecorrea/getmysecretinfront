@@ -24,19 +24,3 @@ export default function Login () {
     </div>
   );
 }
-
-/*const mapStateToProps = state => {
-  return {
-    user: state.currentUser
-  }
-};
-
-const mapDispatchToProp = dispatch => {
-  return {
-    authenticate(user) {
-      dispatch(authenticateUser(user));
-    }
-  }
-};
-
-export default connect(mapStateToProps, mapDispatchToProp)(Login);*/
