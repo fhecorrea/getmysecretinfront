@@ -180,7 +180,7 @@ const MainPanel = (props) => {
         {/* Início da caixa com troca de mensagens*/}
         <Row>
           <Col className='col-12'>
-            <ListGroup as='div' style={{height: "12em", backgroundColor: "#ffcc00", borderRadius: "4px", overflowY: 'scroll'}}>
+            <ListGroup as='div' style={{height: "12em", backgroundColor: "#ccc", borderRadius: "4px", overflowY: 'scroll'}}>
               {messages.loading
                 ? (<ListGroup.Item as='em' disabled>Carregando as mensagens...</ListGroup.Item>)
                 : (messages && messages.data && messages.data.length) 
